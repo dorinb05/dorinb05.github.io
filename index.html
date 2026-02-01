@@ -50,6 +50,7 @@
     .title{min-width:0}
     .title h1{margin:0; font-size:1.25rem; letter-spacing:.2px}
     .title p{margin:.2rem 0 0; color:var(--muted); font-size:.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+
     .controls{display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end}
     .pill{
       display:inline-flex; align-items:center; gap:8px;
@@ -69,15 +70,20 @@
       border-radius:999px;
       background:rgba(255,255,255,.05);
     }
+
+    /* ✅ FIX: coloana dreaptă are lățime minimă, ca să nu se mai rupă textul "cuvânt sub cuvânt" */
     main{
       margin-top:18px;
-      display:grid; gap:16px;
-      grid-template-columns: 1.35fr .65fr;
+      display:grid;
+      gap:16px;
+      grid-template-columns: 1fr minmax(360px, 420px);
+      align-items:start;
     }
     @media (max-width: 860px){
       main{grid-template-columns:1fr;}
       .title p{white-space:normal}
     }
+
     .card{
       padding:18px;
       border:1px solid var(--border);
@@ -93,17 +99,29 @@
     .muted{color:var(--muted)}
     .list{margin:10px 0 0; padding-left:18px}
     .list li{margin:6px 0}
+
     .kvs{display:grid; gap:10px}
+
+    /* ✅ FIX: eticheta un pic mai lată + fără "înghesuială" */
     .kv{
       display:grid;
-      grid-template-columns: 90px 1fr; /* era 120px */
-      gap:10px;
+      grid-template-columns: 110px 1fr;
+      gap:12px;
       padding:10px 12px;
       border:1px dashed rgba(255,255,255,.14);
       border-radius:14px;
       background:rgba(255,255,255,.04);
+      align-items:start;
     }
     .kv b{color:var(--muted); font-weight:600}
+
+    /* ✅ FIX: Domenii mai lizibil, dar tot încape bine */
+    [data-i18n="cvAreasVal"]{
+      line-height:1.65;
+      overflow-wrap:break-word; /* rupe doar când chiar e nevoie */
+      word-break:normal;
+    }
+
     footer{
       margin-top:18px; padding:14px 18px;
       border:1px solid var(--border);
@@ -168,9 +186,7 @@
       <!-- Col 1 -->
       <section class="card" id="about">
         <h2 data-i18n="aboutTitle">Despre mine</h2>
-        <p class="muted" data-i18n="aboutText">
-        
-        </p>
+        <p class="muted" data-i18n="aboutText"></p>
 
         <div class="sep"></div>
 
@@ -330,7 +346,7 @@
         name: "Dorin Bibicu",
         role: "Lecturer phd",
         affil: "“Dunărea de Jos” University of Galați",
-        dept: " Faculty of Economics and Business Administration/ Department Business Administration",
+        dept: "Faculty of Economics and Business Administration / Department of Business Administration",
         contactBtn: "Contact",
         navAbout: "About",
         navCV: "CV",
@@ -361,7 +377,7 @@
 
         cvTitle: "Short CV",
         cvPositionLabel: "Position",
-        cvPositionVal: "Assistant/Lecturer/Assoc. Prof./Prof. (fill in)",
+        cvPositionVal: "Lecturer",
         cvAreasLabel: "Areas",
         cvAreasVal: "Artificial intelligence, medical image processing, artificial neural networks, pattern recognition, decision support information systems, development of ultra- and infrasound technologies in stratified media for detection and recognition of high-risk objects, development of CAD applications for supporting diagnostic activities, operating systems and applied programming.",
         cvEduLabel: "Education",
@@ -399,7 +415,6 @@
         }
       });
 
-      // update tab title
       document.title = (lang === "ro")
         ? `${i18n.ro.name} — Site personal`
         : `${i18n.en.name} — Personal website`;
@@ -412,7 +427,6 @@
       applyLang(current === "ro" ? "en" : "ro");
     });
 
-    // initial language
     applyLang(localStorage.getItem("site_lang") || "ro");
   </script>
 </body>
