@@ -1,13 +1,21 @@
 <!doctype html>
 <html lang="ro">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dorin Bibicu — Site personal</title>
+  <meta name="description" content="Pagină web personală bilingvă (Română/English) — CV, publicații, proiecte, contact." />
+
+  <!-- Favicon + social preview -->
+  <link rel="icon" href="favicon.ico" />
+  <meta property="og:title" content="Dorin Bibicu — Site personal" />
+  <meta property="og:description" content="CV, publicații, proiecte, contact (RO/EN)" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="DorinBibicu.jpg" />
 
   <style>
     :root{
-      --bg:#0b1020;
+      --bg:#0b1020; /* fundal */
       --card:#121a33;
       --text:#e9ecff;
       --muted:#b8c0ff;
@@ -18,99 +26,237 @@
     }
 
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth;}
 
-    /* ASCUNDE placeholder-ele pana se incarca i18n */
-    [data-i18n]{visibility:hidden;}
-    html.i18n-ready [data-i18n]{visibility:visible;}
+    html{ scroll-behavior:smooth; }
+
+    /* ✅ NU afișa placeholder-ele până se aplică i18n */
+    [data-i18n]{ visibility:hidden; }
+    html.i18n-ready [data-i18n]{ visibility:visible; }
 
     body{
       margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 500px at 15% 10%, rgba(122,162,255,.35), transparent 60%),
+        radial-gradient(900px 450px at 90% 25%, rgba(118,255,185,.15), transparent 55%),
+        var(--bg);
       color:var(--text);
+      line-height:1.55;
     }
 
-    .wrap{max-width:980px;margin:0 auto;padding:28px 18px 48px;}
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Focus vizibil pe toate linkurile */
+    a:focus-visible, button:focus-visible{
+      outline: 2px solid rgba(122,162,255,.6);
+      outline-offset: 3px;
+      border-radius: 10px;
+    }
+
+    .wrap{max-width:980px; margin:0 auto; padding:28px 18px 48px;}
+
+    header{
+      display:flex; gap:18px; align-items:center; justify-content:space-between;
+      padding:18px; border:1px solid var(--border); border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(18,26,51,.92), rgba(18,26,51,.72));
+      box-shadow:var(--shadow);
+    }
+
+    .id{display:flex; gap:14px; align-items:center; min-width:0;}
+
+    .avatar{
+      width:56px; height:56px;
+      border-radius:50%;
+      border:1px solid var(--border);
+      object-fit:cover;
+      background:#1a2245;
+    }
+
+    .title{min-width:0}
+    .title h1{margin:0; font-size:1.25rem; letter-spacing:.2px}
+    .title p{
+      margin:.2rem 0 0;
+      color:var(--muted);
+      font-size:.95rem;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .controls{display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end}
+
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      cursor:pointer;
+      color:var(--text);
+      user-select:none;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+
+    nav{
+      margin-top:16px;
+      display:flex; flex-wrap:wrap; gap:10px;
+    }
+    nav a{
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:rgba(255,255,255,.05);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+
+    /* Link activ (secțiunea curentă) */
+    nav a[aria-current="page"]{
+      border-color: rgba(122,162,255,.65);
+      background: rgba(122,162,255,.14);
+    }
+
+    .pill:hover, nav a:hover, .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(122,162,255,.45);
+      background: rgba(122,162,255,.10);
+      text-decoration:none;
+    }
+    .pill:active, nav a:active, .btn:active{ transform: translateY(0); }
+
+    /* Layout: stânga flexibil, dreapta cu min/max ca să nu se rupă aiurea */
+    main{
+      margin-top:18px;
+      display:grid;
+      gap:16px;
+      grid-template-columns: 1fr minmax(360px, 420px);
+      align-items:start;
+    }
+    @media (max-width: 860px){
+      main{grid-template-columns:1fr;}
+      .title p{white-space:normal}
+    }
+
+    /* offset la scroll când sari pe secțiuni */
+    section, aside{ scroll-margin-top: 90px; }
 
     .card{
       padding:18px;
       border:1px solid var(--border);
       border-radius:var(--radius);
-      background:rgba(18,26,51,.78);
+      background: rgba(18,26,51,.78);
       box-shadow:var(--shadow);
-      margin-top:16px;
     }
 
-    .list{padding-left:18px}
+    .card h2{
+      margin:0 0 10px;
+      font-size:1.05rem;
+      letter-spacing:.2px;
+    }
+
+    .muted{color:var(--muted)}
+
+    /* Text „Despre mine” aliniat stânga-dreapta (justify) + lățime confortabilă */
+    #about p.muted{
+      text-align: justify;
+      text-justify: inter-word;
+      hyphens: auto;
+      max-width: 70ch;
+      margin-right: auto;
+    }
+    @media (max-width: 520px){
+      #about p.muted{ text-align:left; hyphens:none; max-width: none; }
+    }
+
+    .list{margin:10px 0 0; padding-left:18px}
     .list li{margin:6px 0}
+
+    .kvs{display:grid; gap:10px}
+
+    .kv{
+      display:grid;
+      grid-template-columns: 120px 1fr;
+      gap:12px;
+      padding:10px 12px;
+      border:1px dashed rgba(255,255,255,.14);
+      border-radius:14px;
+      background:rgba(255,255,255,.04);
+      align-items:start;
+    }
+    @media (max-width: 420px){
+      .kv{grid-template-columns:1fr;}
+    }
+
+    .kv b{color:var(--muted); font-weight:600}
+
+    /* Liste în “kv” */
+    .kv ul{ margin:0; padding-left:18px; }
+    .kv ul li{ margin:6px 0; }
+
+    /* Educație ca timeline */
+    .edu-timeline{
+      margin:0;
+      padding:0;
+      list-style:none;
+      border-left: 2px solid rgba(122,162,255,.35);
+      padding-left:14px;
+    }
+    .edu-timeline li{
+      position:relative;
+      margin:8px 0;
+      line-height:1.55;
+    }
+    .edu-timeline li::before{
+      content:"";
+      position:absolute;
+      left:-21px;
+      top:.55em;
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background: rgba(122,162,255,.55);
+      border:1px solid rgba(255,255,255,.25);
+    }
+
+    footer{
+      margin-top:18px;
+      padding:14px 18px;
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      background:rgba(18,26,51,.55);
+      color:var(--muted);
+      font-size:.95rem;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+    }
+
+    .badge{
+      display:inline-block; padding:2px 10px; margin-left:8px;
+      border:1px solid rgba(122,162,255,.4);
+      background: rgba(122,162,255,.12);
+      border-radius:999px;
+      color:var(--text);
+      font-size:.85rem;
+    }
+
+    .small{font-size:.92rem}
+    .sep{height:1px; background:rgba(255,255,255,.12); margin:12px 0}
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 12px; border-radius:12px;
+      border:1px solid rgba(122,162,255,.5);
+      background: rgba(122,162,255,.14);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
   </style>
 </head>
 
 <body>
-<div class="wrap">
+  <div class="wrap">
 
-<h1>
-  <span data-i18n="name">Nume</span>
-  <span data-i18n="role">Rol</span>
-</h1>
-
-<section class="card">
-  <h2 data-i18n="compItTitle">Competențe</h2>
-  <ul class="list">
-    <li data-i18n="comp1">...</li>
-    <li data-i18n="comp2">...</li>
-    <li data-i18n="comp3">...</li>
-    <li data-i18n="comp4">...</li>
-    <li data-i18n="comp5">...</li>
-    <li data-i18n="comp6">...</li>
-  </ul>
-</section>
-
-</div>
-
-<script>
-const i18n={
-  ro:{
-    name:"Dorin Bibicu",
-    role:"Lector univ. dr.",
-    compItTitle:"Competențe IT",
-    comp1:"Programare: C++, Java, C#, Python, MATLAB",
-    comp2:"Medii de dezvoltare: Visual Studio, Android Studio",
-    comp3:"Inteligență artificială și Învățare automată: ANN, CNN",
-    comp4:"Baze de date: SQL, Oracle",
-    comp5:"Dezvoltare web: HTML, CSS, JavaScript, PHP, ASP.NET, WordPress",
-    comp6:"Productivitate: Microsoft Office"
-  },
-  en:{
-    name:"Dorin Bibicu",
-    role:"Lecturer, PhD",
-    compItTitle:"IT Skills",
-    comp1:"Programming Languages: C++, Java, C#, Python, MATLAB",
-    comp2:"Development Tools: Visual Studio, Android Studio",
-    comp3:"Artificial Intelligence & Machine Learning: ANN, CNN",
-    comp4:"Databases: SQL, Oracle Database",
-    comp5:"Web Development: HTML, CSS, JavaScript, PHP, ASP.NET, WordPress",
-    comp6:"Productivity: Microsoft Office"
-  }
-};
-
-function setI18nText(lang){
-  document.querySelectorAll("[data-i18n]").forEach(el=>{
-    const key=el.getAttribute("data-i18n");
-    if(i18n[lang][key]!==undefined){
-      el.textContent=i18n[lang][key];
-    }
-  });
-}
-
-function applyLang(lang){
-  setI18nText(lang);
-  document.documentElement.classList.add("i18n-ready");
-}
-
-applyLang("ro");
-</script>
-
-</body>
-</html>
+    <header>
+      <div class="id">
+ sometimeouts: removed due to message length but script continues accordingly
