@@ -281,6 +281,31 @@
     .cv-bottom{
       margin-top: auto;
     }
+
+   .footer-bar{
+  margin-top:18px;
+  padding:14px 18px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:rgba(18,26,51,.55);
+  color:var(--muted);
+  font-size:.95rem;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.footer-center{
+  margin:0 auto;
+  text-align:center;
+}
+
+.footer-right{
+  margin-left:auto;
+}
+
+    
   </style>
 
   
@@ -460,21 +485,22 @@
       </aside>
     </main>
 
-    <footer>
+   <footer class="footer-bar">
 
-      <div style="text-align:center">
-        <span data-i18n="footer1">©</span>
-        <span id="year"></span>
-        <span data-i18n="footer2">— Site personal bilingv (RO/EN) Dorin Bibicu</span>
-      </div>
-    
-      <div style="margin-top:6px; text-align:right">
-        <a href='http://www.freevisitorcounters.com' style="display:none">counter</a>
-        <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=c14d225078851ad8c98d9e9193e267d818ea626c'></script>
-        <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1498728/t/2"></script>
-      </div>
-    
-    </footer>
+  <div class="footer-center">
+    <span data-i18n="footer1">©</span>
+    <span id="year"></span>
+    <span data-i18n="footer2">— Site personal bilingv (RO/EN) Dorin Bibicu</span>
+  </div>
+
+  <div class="footer-right">
+    <a href="http://www.freevisitorcounters.com" style="display:none">counter</a>
+    <script type="text/javascript" src="https://www.freevisitorcounters.com/auth.php?id=c14d225078851ad8c98d9e9193e267d818ea626c"></script>
+    <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1498728/t/2"></script>
+  </div>
+
+</footer>
+
 
 
   </div>
