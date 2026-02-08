@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ro">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dorin Bibicu — Site personal</title>
   <meta name="description" content="Pagină web personală bilingvă (Română/English) — CV, publicații, proiecte, contact." />
@@ -120,17 +120,24 @@
     }
     .pill:active, nav a:active, .btn:active{ transform: translateY(0); }
 
-    /* Layout: stânga flexibil, dreapta cu min/max ca să nu se rupă aiurea */
+    /* ✅ Layout: coloane + aceeași înălțime */
     main{
       margin-top:18px;
       display:grid;
       gap:16px;
       grid-template-columns: 1fr minmax(360px, 420px);
-      align-items:start;
+      align-items: stretch; /* 👈 important: egalează înălțimea coloanelor */
     }
+    main > section,
+    main > aside{
+      height: 100%;
+    }
+
     @media (max-width: 860px){
       main{grid-template-columns:1fr;}
       .title p{white-space:normal}
+      main > section,
+      main > aside{ height:auto; }
     }
 
     /* offset la scroll când sari pe secțiuni */
@@ -248,6 +255,7 @@
       transition: transform .12s ease, background .12s ease, border-color .12s ease;
     }
 
+    /* ✅ iframe responsive + încadrat frumos */
     .map-wrap{
       margin-top: 12px;
       border-radius: 14px;
@@ -255,20 +263,24 @@
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.04);
     }
-    
-    /* variantă simplă: înălțime fixă, dar responsive */
     .map-wrap iframe{
       width: 100%;
       height: 260px;
       border: 0;
       display: block;
     }
-    
-    /* pe ecrane mari poți crește puțin înălțimea */
     @media (min-width: 860px){
       .map-wrap iframe{ height: 280px; }
     }
-    
+
+    /* ✅ face ca în coloana 2 butonul să stea jos */
+    aside.card{
+      display: flex;
+      flex-direction: column;
+    }
+    .cv-bottom{
+      margin-top: auto;
+    }
   </style>
 </head>
 
@@ -301,7 +313,7 @@
     <nav aria-label="Navigare">
       <a href="#about" data-i18n="navAbout">Despre</a>
       <a href="CV_BibicuDorin.pdf" data-i18n="navCV" target="_blank" rel="noopener" id="cvLink">CV</a>
-      <a href="Publicatii BD.pdf" data-i18n="navPubs">Publicații</a>
+      <a href="Publicatii BD.pdf" data-i18n="navPubs" target="_blank" rel="noopener">Publicații</a>
       <a href="#teaching" data-i18n="navTeach">Activitate didactică</a>
       <a href="#projects" data-i18n="navProjects">Proiecte</a>
       <a href="#contact" data-i18n="navContact">Contact</a>
@@ -335,8 +347,8 @@
           </li>
         </ul>
 
-        <a data-i18n="linkPublicatii" href="Publicatii BD.pdf" target="_blank"></a>
-        
+        <a data-i18n="linkPublicatii" href="Publicatii BD.pdf" target="_blank" rel="noopener"></a>
+
         <p class="small" style="margin-top:12px">
           <a class="btn" href="https://scholar.google.com/citations?user=_AGAOIEAAAAJ&hl=en" target="_blank" rel="noopener">
             <span data-i18n="scholarLink">Google Scholar</span>
@@ -364,7 +376,7 @@
           <li data-i18n="proj3">Proiect 3</li>
         </ul>
 
-         <div class="sep"></div>
+        <div class="sep"></div>
         <h2 id="compIT" data-i18n="compItTitle"></h2>
         <ul class="list">
           <li data-i18n="comp1">Comp1 1</li>
@@ -374,7 +386,6 @@
           <li data-i18n="comp5">Comp 5</li>
           <li data-i18n="comp6">Comp 6</li>
         </ul>
-        
       </section>
 
       <!-- Col 2 -->
@@ -419,19 +430,21 @@
         </ul>
 
         <div class="map-wrap">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2799.3232593138414!2d28.046955091409156!3d45.44314166026784!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b6de503c3461a7%3A0xef3de023a82d5385!2sF.E.A.A.!5e0!3m2!1sro!2sro!4v1770582375566!5m2!1sro!2sro"
-          allowfullscreen
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          title="Hartă locație">
-        </iframe>
-      </div>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2799.3232593138414!2d28.046955091409156!3d45.44314166026784!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b6de503c3461a7%3A0xef3de023a82d5385!2sF.E.A.A.!5e0!3m2!1sro!2sro!4v1770582375566!5m2!1sro!2sro"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Hartă locație">
+          </iframe>
+        </div>
 
-
-        <p class="small" style="margin-top:12px">
-          <a class="btn" href="CV_BibicuDorin.pdf" target="_blank" rel="noopener" id="cvBtn">CV (PDF)</a>
-        </p>
+        <!-- ✅ împinge conținutul de jos la bottom -->
+        <div class="cv-bottom">
+          <p class="small" style="margin-top:12px">
+            <a class="btn" href="CV_BibicuDorin.pdf" target="_blank" rel="noopener" id="cvBtn">CV (PDF)</a>
+          </p>
+        </div>
       </aside>
     </main>
 
@@ -443,7 +456,6 @@
   </div>
 
   <script>
-    // (opțional) vezi rapid dacă apare vreo eroare JS
     window.addEventListener("error", (e) => console.log("JS error:", e.message));
 
     const i18n = {
@@ -559,7 +571,6 @@
         comp5: "Development Tools: Visual Studio, Android Studio",
         comp6: "Productivity: Microsoft Office",
 
-
         cvTitle: "Short CV",
         cvPositionLabel: "Position",
         cvPositionVal: "Lecturer, PhD",
@@ -581,7 +592,6 @@
       }
     };
 
-    // year
     document.getElementById("year").textContent = new Date().getFullYear();
 
     const langBtn = document.getElementById("langBtn");
@@ -602,7 +612,6 @@
         ? `${i18n.ro.name} — Site personal`
         : `${i18n.en.name} — Personal website`;
 
-      // etichete accesibile pentru linkurile PDF
       const label = (lang === "ro") ? "Vezi CV (PDF)" : "View CV (PDF)";
       document.getElementById("cvLink")?.setAttribute("aria-label", label);
       document.getElementById("cvBtn")?.setAttribute("aria-label", label);
@@ -610,7 +619,6 @@
       localStorage.setItem("site_lang", lang);
     }
 
-    // listă bullet din text cu ;
     function renderSemicolonList(lang, key, className = ""){
       const el = document.querySelector(`[data-i18n="${key}"]`);
       if(!el) return;
@@ -643,15 +651,10 @@
 
     function applyLang(lang){
       setI18nText(lang);
-
-      // Domenii -> bullets
       renderSemicolonList(lang, "cvAreasVal");
-
-      // Educație -> timeline
       renderSemicolonList(lang, "cvEduVal", "edu-timeline");
     }
 
-    // Highlight automat în meniu la scroll (secțiunea vizibilă)
     function setupActiveNav(){
       const navLinks = [...document.querySelectorAll("nav a[href^='#']")];
       const sections = navLinks
@@ -677,7 +680,6 @@
       applyLang(current === "ro" ? "en" : "ro");
     });
 
-    // init
     applyLang(localStorage.getItem("site_lang") || "ro");
     setupActiveNav();
   </script>
