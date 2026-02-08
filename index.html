@@ -1,17 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ro">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dorin Bibicu — Site personal</title>
   <meta name="description" content="Pagină web personală bilingvă (Română/English) — CV, publicații, proiecte, contact." />
 
   <!-- Favicon + social preview -->
-  <link rel="icon" href="favicon.ico" />
+  <link rel="icon" href="./favicon.ico" />
   <meta property="og:title" content="Dorin Bibicu — Site personal" />
   <meta property="og:description" content="CV, publicații, proiecte, contact (RO/EN)" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="DorinBibicu.jpg" />
+  <meta property="og:image" content="./DorinBibicu.jpg" />
 
   <style>
     :root{
@@ -255,7 +255,7 @@
 
     <header>
       <div class="id">
-        <img src="DorinBibicu.jpg" alt="Dorin Bibicu" class="avatar" loading="lazy" decoding="async" />
+        <img src="./DorinBibicu.jpg" alt="Dorin Bibicu" class="avatar" loading="lazy" decoding="async" />
         <div class="title">
           <h1>
             <span data-i18n="name">Dorin Bibicu</span>
@@ -278,8 +278,8 @@
 
     <nav aria-label="Navigare">
       <a href="#about" data-i18n="navAbout">Despre</a>
-      <a href="CV_BibicuDorin.pdf" data-i18n="navCV" target="_blank" rel="noopener" id="cvLink">CV</a>
-      <a href="Publicatii BD.pdf" data-i18n="navPubs">Publicații</a>
+      <a href="./CV_BibicuDorin.pdf" data-i18n="navCV" target="_blank" rel="noopener" id="cvLink">CV</a>
+      <a href="./Publicatii%20BD.pdf" data-i18n="navPubs" target="_blank" rel="noopener">Publicații</a>
       <a href="#teaching" data-i18n="navTeach">Activitate didactică</a>
       <a href="#projects" data-i18n="navProjects">Proiecte</a>
       <a href="#contact" data-i18n="navContact">Contact</a>
@@ -313,8 +313,8 @@
           </li>
         </ul>
 
-        <a data-i18n="linkPublicatii" href="Publicatii BD.pdf" target="_blank"></a>
-        
+        <a data-i18n="linkPublicatii" href="./Publicatii%20BD.pdf" target="_blank" rel="noopener"></a>
+
         <p class="small" style="margin-top:12px">
           <a class="btn" href="https://scholar.google.com/citations?user=_AGAOIEAAAAJ&hl=en" target="_blank" rel="noopener">
             <span data-i18n="scholarLink">Google Scholar</span>
@@ -342,7 +342,7 @@
           <li data-i18n="proj3">Proiect 3</li>
         </ul>
 
-         <div class="sep"></div>
+        <div class="sep"></div>
         <h2 id="compIT" data-i18n="compItTitle">Se ia din script!</h2>
         <ul class="list">
           <li data-i18n="comp1">Comp1 1</li>
@@ -350,8 +350,9 @@
           <li data-i18n="comp3">Comp 3</li>
           <li data-i18n="comp4">Comp 4</li>
           <li data-i18n="comp5">Comp 5</li>
+          <li data-i18n="comp6">Comp 6</li>
         </ul>
-        
+
       </section>
 
       <!-- Col 2 -->
@@ -396,7 +397,7 @@
         </ul>
 
         <p class="small" style="margin-top:12px">
-          <a class="btn" href="CV_BibicuDorin.pdf" target="_blank" rel="noopener" id="cvBtn">CV (PDF)</a>
+          <a class="btn" href="./CV_BibicuDorin.pdf" target="_blank" rel="noopener" id="cvBtn">CV (PDF)</a>
         </p>
       </aside>
     </main>
@@ -409,7 +410,6 @@
   </div>
 
   <script>
-    // (opțional) vezi rapid dacă apare vreo eroare JS
     window.addEventListener("error", (e) => console.log("JS error:", e.message));
 
     const i18n = {
@@ -525,7 +525,6 @@
         comp5: "Development Tools: Visual Studio, Android Studio",
         comp6: "Productivity: Microsoft Office",
 
-
         cvTitle: "Short CV",
         cvPositionLabel: "Position",
         cvPositionVal: "Lecturer, PhD",
@@ -568,7 +567,6 @@
         ? `${i18n.ro.name} — Site personal`
         : `${i18n.en.name} — Personal website`;
 
-      // etichete accesibile pentru linkurile PDF
       const label = (lang === "ro") ? "Vezi CV (PDF)" : "View CV (PDF)";
       document.getElementById("cvLink")?.setAttribute("aria-label", label);
       document.getElementById("cvBtn")?.setAttribute("aria-label", label);
@@ -576,7 +574,6 @@
       localStorage.setItem("site_lang", lang);
     }
 
-    // listă bullet din text cu ;
     function renderSemicolonList(lang, key, className = ""){
       const el = document.querySelector(`[data-i18n="${key}"]`);
       if(!el) return;
@@ -609,15 +606,10 @@
 
     function applyLang(lang){
       setI18nText(lang);
-
-      // Domenii -> bullets
       renderSemicolonList(lang, "cvAreasVal");
-
-      // Educație -> timeline
       renderSemicolonList(lang, "cvEduVal", "edu-timeline");
     }
 
-    // Highlight automat în meniu la scroll (secțiunea vizibilă)
     function setupActiveNav(){
       const navLinks = [...document.querySelectorAll("nav a[href^='#']")];
       const sections = navLinks
@@ -643,7 +635,6 @@
       applyLang(current === "ro" ? "en" : "ro");
     });
 
-    // init
     applyLang(localStorage.getItem("site_lang") || "ro");
     setupActiveNav();
   </script>
