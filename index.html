@@ -324,7 +324,7 @@
 
     <nav aria-label="Navigare">
       <a href="#about" data-i18n="navAbout">Despre</a>
-      <a href="CV_BibicuDorin.pdf" data-i18n="navCV" target="_blank" rel="noopener" id="cvLink">CV</a>
+      <a href="CV_BibicuDorin.pdf" data-i18n="navCV" target="_blank" onclick="gtag('event','download_cv'); rel="noopener" id="cvLink">CV</a>
       <a href="Publicatii BD.pdf" data-i18n="navPubs" target="_blank" rel="noopener">Publicații</a>
       <a href="#teaching" data-i18n="navTeach">Activitate didactică</a>
       <a href="#projects" data-i18n="navProjects">Proiecte</a>
@@ -340,7 +340,7 @@
          <!-- ✅ împinge conținutul de jos la bottom -->
         <div align="right" class="cv-bottom">
           <p class="small" style="margin-top:12px">
-            <a class="btn" href="CV_BibicuDorin.pdf" target="_blank" rel="noopener" id="cvBtn">CV (PDF)</a>
+            <a class="btn" href="CV_BibicuDorin.pdf" target="_blank" onclick="gtag('event','download_cv');" rel="noopener" id="cvBtn">
           </p>
         </div>
 
