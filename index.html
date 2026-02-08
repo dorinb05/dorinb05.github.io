@@ -1,107 +1,651 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dorin Bibicu — Site personal</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dorin Bibicu — Site personal</title>
+  <meta name="description" content="Pagină web personală bilingvă (Română/English) — CV, publicații, proiecte, contact." />
 
-<style>
-:root{
---bg:#0b1020;
---card:#121a33;
---text:#e9ecff;
---muted:#b8c0ff;
---accent:#7aa2ff;
---border:rgba(255,255,255,.12);
---radius:18px;
-}
+  <!-- Favicon + social preview -->
+  <link rel="icon" href="favicon.ico" />
+  <meta property="og:title" content="Dorin Bibicu — Site personal" />
+  <meta property="og:description" content="CV, publicații, proiecte, contact (RO/EN)" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="DorinBibicu.jpg" />
 
-*{box-sizing:border-box}
+  <style>
+    :root{
+      --bg:#0b1020; /* fundal */
+      --card:#121a33;
+      --text:#e9ecff;
+      --muted:#b8c0ff;
+      --accent:#7aa2ff;
+      --border:rgba(255,255,255,.12);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
+    }
 
-[data-i18n]{visibility:hidden}
-html.ready [data-i18n]{visibility:visible}
+    *{box-sizing:border-box}
 
-body{
-margin:0;
-font-family:system-ui,Segoe UI,Arial;
-background:var(--bg);
-color:var(--text);
-}
+    html{ scroll-behavior:smooth; }
 
-.wrap{max-width:900px;margin:auto;padding:24px}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 500px at 15% 10%, rgba(122,162,255,.35), transparent 60%),
+        radial-gradient(900px 450px at 90% 25%, rgba(118,255,185,.15), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.55;
+    }
 
-.card{
-background:var(--card);
-padding:18px;
-border-radius:var(--radius);
-border:1px solid var(--border);
-margin-top:16px;
-}
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
 
-.list{padding-left:18px}
-</style>
+    /* Focus vizibil pe toate linkurile */
+    a:focus-visible, button:focus-visible{
+      outline: 2px solid rgba(122,162,255,.6);
+      outline-offset: 3px;
+      border-radius: 10px;
+    }
+
+    .wrap{max-width:980px; margin:0 auto; padding:28px 18px 48px;}
+
+    header{
+      display:flex; gap:18px; align-items:center; justify-content:space-between;
+      padding:18px; border:1px solid var(--border); border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(18,26,51,.92), rgba(18,26,51,.72));
+      box-shadow:var(--shadow);
+    }
+
+    .id{display:flex; gap:14px; align-items:center; min-width:0;}
+
+    .avatar{
+      width:56px; height:56px;
+      border-radius:50%;
+      border:1px solid var(--border);
+      object-fit:cover;
+      background:#1a2245;
+    }
+
+    .title{min-width:0}
+    .title h1{margin:0; font-size:1.25rem; letter-spacing:.2px}
+    .title p{
+      margin:.2rem 0 0;
+      color:var(--muted);
+      font-size:.95rem;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .controls{display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end}
+
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      cursor:pointer;
+      color:var(--text);
+      user-select:none;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+
+    nav{
+      margin-top:16px;
+      display:flex; flex-wrap:wrap; gap:10px;
+    }
+    nav a{
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:rgba(255,255,255,.05);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+
+    /* Link activ (secțiunea curentă) */
+    nav a[aria-current="page"]{
+      border-color: rgba(122,162,255,.65);
+      background: rgba(122,162,255,.14);
+    }
+
+    .pill:hover, nav a:hover, .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(122,162,255,.45);
+      background: rgba(122,162,255,.10);
+      text-decoration:none;
+    }
+    .pill:active, nav a:active, .btn:active{ transform: translateY(0); }
+
+    /* Layout: stânga flexibil, dreapta cu min/max ca să nu se rupă aiurea */
+    main{
+      margin-top:18px;
+      display:grid;
+      gap:16px;
+      grid-template-columns: 1fr minmax(360px, 420px);
+      align-items:start;
+    }
+    @media (max-width: 860px){
+      main{grid-template-columns:1fr;}
+      .title p{white-space:normal}
+    }
+
+    /* offset la scroll când sari pe secțiuni */
+    section, aside{ scroll-margin-top: 90px; }
+
+    .card{
+      padding:18px;
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      background: rgba(18,26,51,.78);
+      box-shadow:var(--shadow);
+    }
+
+    .card h2{
+      margin:0 0 10px;
+      font-size:1.05rem;
+      letter-spacing:.2px;
+    }
+
+    .muted{color:var(--muted)}
+
+    /* Text „Despre mine” aliniat stânga-dreapta (justify) + lățime confortabilă */
+    #about p.muted{
+      text-align: justify;
+      text-justify: inter-word;
+      hyphens: auto;
+      max-width: 70ch;
+      margin-right: auto;
+    }
+    @media (max-width: 520px){
+      #about p.muted{ text-align:left; hyphens:none; max-width: none; }
+    }
+
+    .list{margin:10px 0 0; padding-left:18px}
+    .list li{margin:6px 0}
+
+    .kvs{display:grid; gap:10px}
+
+    .kv{
+      display:grid;
+      grid-template-columns: 120px 1fr;
+      gap:12px;
+      padding:10px 12px;
+      border:1px dashed rgba(255,255,255,.14);
+      border-radius:14px;
+      background:rgba(255,255,255,.04);
+      align-items:start;
+    }
+    @media (max-width: 420px){
+      .kv{grid-template-columns:1fr;}
+    }
+
+    .kv b{color:var(--muted); font-weight:600}
+
+    /* Liste în “kv” */
+    .kv ul{ margin:0; padding-left:18px; }
+    .kv ul li{ margin:6px 0; }
+
+    /* Educație ca timeline */
+    .edu-timeline{
+      margin:0;
+      padding:0;
+      list-style:none;
+      border-left: 2px solid rgba(122,162,255,.35);
+      padding-left:14px;
+    }
+    .edu-timeline li{
+      position:relative;
+      margin:8px 0;
+      line-height:1.55;
+    }
+    .edu-timeline li::before{
+      content:"";
+      position:absolute;
+      left:-21px;
+      top:.55em;
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background: rgba(122,162,255,.55);
+      border:1px solid rgba(255,255,255,.25);
+    }
+
+    footer{
+      margin-top:18px;
+      padding:14px 18px;
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      background:rgba(18,26,51,.55);
+      color:var(--muted);
+      font-size:.95rem;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+    }
+
+    .badge{
+      display:inline-block; padding:2px 10px; margin-left:8px;
+      border:1px solid rgba(122,162,255,.4);
+      background: rgba(122,162,255,.12);
+      border-radius:999px;
+      color:var(--text);
+      font-size:.85rem;
+    }
+
+    .small{font-size:.92rem}
+    .sep{height:1px; background:rgba(255,255,255,.12); margin:12px 0}
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 12px; border-radius:12px;
+      border:1px solid rgba(122,162,255,.5);
+      background: rgba(122,162,255,.14);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+  </style>
 </head>
 
 <body>
-<div class="wrap">
+  <div class="wrap">
 
-<h1>
-<span data-i18n="name">Name</span>
-<span data-i18n="role">Role</span>
-</h1>
+    <header>
+      <div class="id">
+        <img src="DorinBibicu.jpg" alt="Dorin Bibicu" class="avatar" loading="lazy" decoding="async" />
+        <div class="title">
+          <h1>
+            <span data-i18n="name">Dorin Bibicu</span>
+            <span class="badge" data-i18n="role">Se ia din script</span>
+          </h1>
+          <p>
+            <span data-i18n="affil">Universitatea „Dunărea de Jos” din Galați</span> ·
+            <br /><span data-i18n="dept">Facultatea de Economie și Administrarea Afacerilor / Departamentul Administrarea Afacerilor</span>
+          </p>
+        </div>
+      </div>
 
-<div class="card">
-<h2 data-i18n="compItTitle">IT Skills</h2>
-<ul class="list">
-<li data-i18n="comp1"></li>
-<li data-i18n="comp2"></li>
-<li data-i18n="comp3"></li>
-<li data-i18n="comp4"></li>
-<li data-i18n="comp5"></li>
-<li data-i18n="comp6"></li>
-</ul>
-</div>
+      <div class="controls">
+        <button class="pill" id="langBtn" type="button" aria-label="Schimbă limba / Change language">
+          🌐 <span id="langLabel">RO</span>
+        </button>
+        <a class="pill" href="#contact">✉️ <span data-i18n="contactBtn">Contact</span></a>
+      </div>
+    </header>
 
-</div>
+    <nav aria-label="Navigare">
+      <a href="#about" data-i18n="navAbout">Despre</a>
+      <a href="CV_BibicuDorin.pdf" data-i18n="navCV" target="_blank" rel="noopener" id="cvLink">CV</a>
+      <a href="Publicatii BD.pdf" data-i18n="navPubs">Publicații</a>
+      <a href="#teaching" data-i18n="navTeach">Activitate didactică</a>
+      <a href="#projects" data-i18n="navProjects">Proiecte</a>
+      <a href="#contact" data-i18n="navContact">Contact</a>
+    </nav>
 
-<script>
-const i18n={
-ro:{
-name:"Dorin Bibicu",
-role:"Lector univ. dr.",
-compItTitle:"Competențe IT",
-comp1:"Programare: C++, Java, C#, Python, MATLAB",
-comp2:"Medii de dezvoltare: Visual Studio, Android Studio",
-comp3:"Inteligență artificială și Învățare automată: ANN, CNN",
-comp4:"Baze de date: SQL, Oracle",
-comp5:"Dezvoltare web: HTML, CSS, JavaScript, PHP, ASP.NET, WordPress",
-comp6:"Productivitate: Microsoft Office"
-},
-en:{
-name:"Dorin Bibicu",
-role:"Lecturer, PhD",
-compItTitle:"IT Skills",
-comp1:"Programming Languages: C++, Java, C#, Python, MATLAB",
-comp2:"Development Tools: Visual Studio, Android Studio",
-comp3:"Artificial Intelligence & Machine Learning: ANN, CNN",
-comp4:"Databases: SQL, Oracle Database",
-comp5:"Web Development: HTML, CSS, JavaScript, PHP, ASP.NET, WordPress",
-comp6:"Productivity: Microsoft Office"
-}
-};
+    <main>
+      <!-- Col 1 -->
+      <section class="card" id="about">
+        <h2 data-i18n="aboutTitle">Despre mine</h2>
+        <p class="muted" data-i18n="aboutText"></p>
 
-function applyLang(lang){
-document.querySelectorAll("[data-i18n]").forEach(el=>{
-const key=el.dataset.i18n;
-if(i18n[lang][key]!==undefined){
-el.textContent=i18n[lang][key];
-}
-});
-document.documentElement.classList.add("ready");
-}
+        <div class="sep"></div>
 
-applyLang("ro");
-</script>
+        <h2 id="publications" data-i18n="pubTitle">Publicații (selectiv)</h2>
+        <ul class="list">
+          <li>
+            <span data-i18n="pub1">Info din pub1</span>
+            <span class="muted small"> — <a href="https://www.mdpi.com/2076-3417/16/2/979" target="_blank" rel="noopener">DOI/Link</a></span>
+          </li>
+          <li>
+            <span data-i18n="pub2">Info din pub2</span>
+            <span class="muted small"> — <a href="https://doi.org/10.35219/eai15840409521" target="_blank" rel="noopener">DOI</a></span>
+          </li>
+          <li>
+            <span data-i18n="pub3">Info din pub3</span>
+            <span class="muted small"> — <a href="https://doi.org/10.1088/1742-6596/2701/1/012012" target="_blank" rel="noopener">DOI</a></span>
+          </li>
+          <li>
+            <span data-i18n="pub4">Info din pub4</span>
+            <span class="muted small"> — <a href="http://www.gup.ugal.ro/guppress/index.php/test/catalog/book/388" target="_blank" rel="noopener">Link</a></span>
+          </li>
+        </ul>
 
+        <a data-i18n="linkPublicatii" href="Publicatii BD.pdf" target="_blank"></a>
+        
+        <p class="small" style="margin-top:12px">
+          <a class="btn" href="https://scholar.google.com/citations?user=_AGAOIEAAAAJ&hl=en" target="_blank" rel="noopener">
+            <span data-i18n="scholarLink">Google Scholar</span>
+          </a>
+          <span class="muted small" data-i18n="scholarHint"></span>
+        </p>
+
+        <div class="sep"></div>
+
+        <h2 id="teaching" data-i18n="teachTitle">Activitate didactică</h2>
+        <ul class="list">
+          <li data-i18n="teach1">Valoare teach1 din script</li>
+          <li data-i18n="teach2">Valoare teach2 din script</li>
+          <li data-i18n="teach3">Valoare teach3 din script</li>
+          <li data-i18n="teach4">Valoare teach4 din script</li>
+          <li data-i18n="teach5">Valoare teach5 din script</li>
+        </ul>
+
+        <div class="sep"></div>
+
+        <h2 id="projects" data-i18n="projTitle">Proiecte & activități</h2>
+        <ul class="list">
+          <li data-i18n="proj1">Proiect 1</li>
+          <li data-i18n="proj2">Proiect 2</li>
+          <li data-i18n="proj3">Proiect 3</li>
+        </ul>
+
+         <div class="sep"></div>
+        <h2 id="compIT" data-i18n="compItTitle">Se ia din script!</h2>
+        <ul class="list">
+          <li data-i18n="comp1">Comp1 1</li>
+          <li data-i18n="comp2">Comp 2</li>
+          <li data-i18n="comp3">Comp 3</li>
+          <li data-i18n="comp4">Comp 4</li>
+          <li data-i18n="comp5">Comp 5</li>
+        </ul>
+        
+      </section>
+
+      <!-- Col 2 -->
+      <aside class="card" id="cv">
+        <h2 data-i18n="cvTitle">CV pe scurt</h2>
+
+        <div class="kvs">
+          <div class="kv">
+            <b data-i18n="cvPositionLabel">Funcție</b>
+            <div data-i18n="cvPositionVal">Se ia din script</div>
+          </div>
+
+          <div class="kv">
+            <b data-i18n="cvAreasLabel">Domenii</b>
+            <div data-i18n="cvAreasVal"></div>
+          </div>
+
+          <div class="kv">
+            <b data-i18n="cvEduLabel">Educație</b>
+            <div data-i18n="cvEduVal"></div>
+          </div>
+
+          <div class="kv">
+            <b data-i18n="cvLinksLabel">Linkuri</b>
+            <div>
+              <div><a href="https://scholar.google.com/citations?user=_AGAOIEAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a></div>
+              <div><a href="https://www.researchgate.net/profile/Dorin-Bibicu" target="_blank" rel="noopener">ResearchGate</a></div>
+              <div><a href="https://orcid.org/0000-0003-1879-3240" target="_blank" rel="noopener">ORCID</a></div>
+              <div><a href="https://www.linkedin.com/in/dorin-bibicu-07495136b/" target="_blank" rel="noopener">LinkedIn</a></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+
+        <h2 id="contact" data-i18n="contactTitle">Contact</h2>
+        <p class="muted small" data-i18n="contactText">Date de contact</p>
+        <ul class="list">
+          <li><b>Email:</b> <a href="mailto:dorin.bibicu@ugal.ro">dorin.bibicu@ugal.ro</a></li>
+          <li><b data-i18n="officeLabel">Birou:</b> <span data-i18n="officeVal">Corp I, etaj parter, sala I</span></li>
+          <li><b data-i18n="cityLabel">Locație:</b> <span data-i18n="cityVal">Str. Nicolae Bălcescu, nr. 59-61, Galați, România</span></li>
+        </ul>
+
+        <p class="small" style="margin-top:12px">
+          <a class="btn" href="CV_BibicuDorin.pdf" target="_blank" rel="noopener" id="cvBtn">CV (PDF)</a>
+        </p>
+      </aside>
+    </main>
+
+    <footer>
+      <span data-i18n="footer1">©</span>&nbsp;<span id="year"></span>&nbsp;
+      <span data-i18n="footer2">— Site personal bilingv (RO/EN) găzduit pe GitHub Pages.</span>
+    </footer>
+
+  </div>
+
+  <script>
+    // (opțional) vezi rapid dacă apare vreo eroare JS
+    window.addEventListener("error", (e) => console.log("JS error:", e.message));
+
+    const i18n = {
+      ro: {
+        name: "Dorin Bibicu",
+        role: "Lector univ. doctor",
+        affil: "Universitatea „Dunărea de Jos” din Galați",
+        dept: "Facultatea de Economie și Administrarea Afacerilor / Departamentul Administrarea Afacerilor",
+        contactBtn: "Contact",
+        navAbout: "Despre",
+        navCV: "CV",
+        navPubs: "Publicații",
+        navTeach: "Activitate didactică",
+        navProjects: "Proiecte",
+        navContact: "Contact",
+
+        aboutTitle: "Despre mine",
+        aboutText: "Sunt lector univ. dr. la Universitatea «Dunărea de Jos» din Galați, cu interes pentru inteligență artificială și procesarea imaginilor 2D/3D. Activitatea mea vizează rețele neuronale, recunoașterea de tipare și sisteme informatice pentru asistarea deciziei, cu aplicații în zona medicală și în detecția obiectelor ascunse. Sunt implicat în proiecte de cercetare și în dezvoltarea de aplicații CAD pentru susținerea activităților de diagnosticare.",
+
+        pubTitle: "Publicații (selectiv)",
+        pub1: "Dorin Bibicu, Luminița Moraru, Two-Dimensional Simulation of Multiple Acoustic Wave Scattering by a Human Body Model inside an Acoustic Enclosed Space, Applied Sciences, 16(2) 979, 2026.",
+        pub2: "Dorin Bibicu, Performance Evaluation of Digital Image Denoising Techniques, Annals of “Dunarea de Jos” University of Galati Fascicle I. Economics and Applied Informatics, pp. 139–144, 2025.",
+        pub3: "Dorin Bibicu, Anisia Florescu Culea, Simona Moldovanu, Luminița Moraru, 2D multiple waves scattering for active detection of a dummy human body in a low frequency range and for various boundary conditions, Journal of Physics: Conference Series, Vol. 2701 (IC-MSQUARE 2023).",
+        pub4: "L. Moraru, S. Moldovanu, D. Bibicu, Metode avansate de procesare și analiză a imaginilor complexe, Galati University Press, 2013, ISBN 978-606-8348-67-4.",
+
+        linkPublicatii: "Lista completă de publicații",
+        scholarLink: "Google Scholar",
+        scholarHint: "",
+
+        teachTitle: "Activitate didactică",
+        teach1: "Bazele programării (licență).",
+        teach2: "Sisteme de operare (licență).",
+        teach3: "Sisteme informatice pentru asistarea deciziei (licență).",
+        teach4: "Tehnologii avansate pentru analiza și procesarea imaginilor (master).",
+        teach5: "Coordonare lucrări (licență/disertație), îndrumare proiecte.",
+
+        projTitle: "Proiecte & activități",
+        proj1: "Profesor în învățământul preuniversitar: Matematică (2000–2004), Informatică (2005–prezent).",
+        proj2: "Cercetător în proiectul MESMERISE (Horizon 2020) — Multi-Energy High Resolution Modular Scan System for Internal and External Concealed Commodities (2017–2018).",
+        proj3: "Cercetător în proiectul MELCHIOR/82PHE (Horizon Europe) — Mechanical Impedance and Multiphysics Concealed and Hidden Objects Interrogation (2022–2025).",
+
+        compItTitle: "Competențe IT",
+        comp1: "Programare: C++, Java, C#, Python, MATLAB",
+        comp2: "Medii de dezvoltare: Visual Studio, Android Studio",
+        comp3: "Inteligență artificială și Învățare automată: ANN, CNN",
+        comp4: "Baze de date: SQL, Oracle",
+        comp5: "Dezvoltare web: HTML, CSS, JavaScript, PHP, ASP.NET, WordPress",
+        comp6: "Productivitate: Microsoft Office",
+
+        cvTitle: "CV pe scurt",
+        cvPositionLabel: "Funcție",
+        cvPositionVal: "Lector univ. dr.",
+        cvAreasLabel: "Domenii",
+        cvAreasVal: "Inteligență artificială; Procesarea imaginilor medicale; Rețele neuronale artificiale; Recunoaștere de tipare; Sisteme informatice pentru asistarea deciziei; Tehnologii ultra- și infrasunete în medii stratificate; Detecția și recunoașterea obiectelor cu potențial de risc major; Aplicații CAD pentru diagnosticare; Sisteme de operare; Programare aplicată.",
+        cvEduLabel: "Educație",
+        cvEduVal: "Doctor în Inginerie Industrială (Științe aplicate) — Universitatea „Dunărea de Jos” din Galați; Master — Informatică, Programare avansată și baze de date, Universitatea „1 Decembrie 1918” din Alba Iulia, 2023; Gradul didactic I — Informatică (învățământ preuniversitar); Studii aprofundate (Master) — Unde, vibrații și tehnici de control nedistructiv; Licență — Matematică–Fizică.",
+        cvLinksLabel: "Linkuri",
+
+        contactTitle: "Contact",
+        contactText: "Date de contact",
+        officeLabel: "Birou",
+        officeVal: "Corp I, etaj parter, sala I",
+        cityLabel: "Locație",
+        cityVal: "Str. Nicolae Bălcescu, nr. 59-61, Galați, România",
+
+        footer1: "©",
+        footer2: "— Site personal bilingv (RO/EN) Dorin Bibicu"
+      },
+
+      en: {
+        name: "Dorin Bibicu",
+        role: "PhD Lecturer",
+        affil: "“Dunărea de Jos” University of Galați",
+        dept: "Faculty of Economics and Business Administration / Department of Business Administration",
+        contactBtn: "Contact",
+        navAbout: "About",
+        navCV: "CV",
+        navPubs: "Publications",
+        navTeach: "Teaching",
+        navProjects: "Projects",
+        navContact: "Contact",
+
+        aboutTitle: "About me",
+        aboutText: "I am a PhD lecturer at ‘Dunărea de Jos’ University of Galați, with research interests in artificial intelligence and 2D/3D image processing. My work focuses on neural networks, pattern recognition and decision-support systems, with applications in medical imaging and concealed object detection. I also contribute to research projects and to the development of CAD tools that support diagnostic activities.",
+
+        pubTitle: "Selected publications",
+        pub1: "Dorin Bibicu, Luminița Moraru, Two-Dimensional Simulation of Multiple Acoustic Wave Scattering by a Human Body Model inside an Acoustic Enclosed Space, Applied Sciences, 16(2) 979, 2026.",
+        pub2: "Dorin Bibicu, Performance Evaluation of Digital Image Denoising Techniques, Annals of “Dunarea de Jos” University of Galati Fascicle I. Economics and Applied Informatics, pp. 139–144, 2025.",
+        pub3: "Dorin Bibicu, Anisia Florescu Culea, Simona Moldovanu, Luminița Moraru, 2D multiple waves scattering for active detection of a dummy human body in a low frequency range and for various boundary conditions, Journal of Physics: Conference Series, Vol. 2701 (IC-MSQUARE 2023).",
+        pub4: "L. Moraru, S. Moldovanu, D. Bibicu, Advanced methods for processing and analysis of complex images, Galati University Press, 2013, ISBN 978-606-8348-67-4.",
+
+        linkPublicatii: "Complete List of Publications",
+        scholarLink: "Google Scholar",
+        scholarHint: "",
+
+        teachTitle: "Teaching",
+        teach1: "Fundamentals of Programming (BSc).",
+        teach2: "Operating Systems (BSc).",
+        teach3: "Decision Support Information Systems (BSc).",
+        teach4: "Advanced technologies for image analysis and processing (MSc).",
+        teach5: "Thesis supervision (BSc/MSc), project mentoring.",
+
+        projTitle: "Projects & activities",
+        proj1: "Secondary education teacher: Mathematics (2000–2004), Computer Science (2005–present).",
+        proj2: "Researcher in the MESMERISE project (Horizon 2020) — Multi-Energy High Resolution Modular Scan System for Internal and External Concealed Commodities (2017–2018).",
+        proj3: "Researcher in the MELCHIOR/82PHE project (Horizon Europe) — Mechanical Impedance and Multiphysics Concealed and Hidden Objects Interrogation (2022–2025).",
+
+        compItTitle: "IT Skills",
+        comp1: "Programming Languages: C++, Java, C#, Python, MATLAB",
+        comp2: "Web Development: HTML, CSS, JavaScript, PHP, ASP.NET, WordPress",
+        comp3: "Artificial Intelligence & Machine Learning: ANN, CNN",
+        comp4: "Databases: SQL, Oracle Database",
+        comp5: "Development Tools: Visual Studio, Android Studio",
+        comp6: "Productivity: Microsoft Office",
+
+
+        cvTitle: "Short CV",
+        cvPositionLabel: "Position",
+        cvPositionVal: "Lecturer, PhD",
+        cvAreasLabel: "Areas",
+        cvAreasVal: "Artificial intelligence; Medical image processing; Artificial neural networks; Pattern recognition; Decision-support information systems; Ultra- and infrasound technologies in stratified media; Detection and recognition of high-risk objects; CAD applications for diagnostic support; Operating systems; Applied programming.",
+        cvEduLabel: "Education",
+        cvEduVal: "PhD in Industrial Engineering (Applied Sciences) — “Dunărea de Jos” University of Galați; MSc — Computer Science, Advanced Programming and Databases, “1 Decembrie 1918” University of Alba Iulia, 2023; Teaching Degree I in Computer Science (pre-university education); MSc — Waves, Vibrations and Non-Destructive Testing; BSc — Mathematics and Physics.",
+        cvLinksLabel: "Links",
+
+        contactTitle: "Contact",
+        contactText: "",
+        officeLabel: "Office",
+        officeVal: "Building I, ground floor, room I",
+        cityLabel: "Location",
+        cityVal: "59–61 Nicolae Bălcescu St., Galați, Romania",
+
+        footer1: "©",
+        footer2: "— Bilingual personal website (RO/EN) hosted on GitHub Pages."
+      }
+    };
+
+    // year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const langBtn = document.getElementById("langBtn");
+    const langLabel = document.getElementById("langLabel");
+
+    function setI18nText(lang){
+      document.documentElement.lang = (lang === "ro") ? "ro" : "en";
+      langLabel.textContent = lang.toUpperCase();
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if(i18n[lang] && i18n[lang][key] !== undefined){
+          el.textContent = i18n[lang][key];
+        }
+      });
+
+      document.title = (lang === "ro")
+        ? `${i18n.ro.name} — Site personal`
+        : `${i18n.en.name} — Personal website`;
+
+      // etichete accesibile pentru linkurile PDF
+      const label = (lang === "ro") ? "Vezi CV (PDF)" : "View CV (PDF)";
+      document.getElementById("cvLink")?.setAttribute("aria-label", label);
+      document.getElementById("cvBtn")?.setAttribute("aria-label", label);
+
+      localStorage.setItem("site_lang", lang);
+    }
+
+    // listă bullet din text cu ;
+    function renderSemicolonList(lang, key, className = ""){
+      const el = document.querySelector(`[data-i18n="${key}"]`);
+      if(!el) return;
+
+      const raw = String((i18n[lang] && i18n[lang][key]) ? i18n[lang][key] : "").trim();
+      if(!raw){
+        el.textContent = "";
+        return;
+      }
+
+      const items = raw.split(";").map(s => s.trim()).filter(Boolean);
+
+      if(items.length <= 1){
+        el.textContent = raw;
+        return;
+      }
+
+      const ul = document.createElement("ul");
+      if(className) ul.className = className;
+
+      items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item.replace(/\.$/, "");
+        ul.appendChild(li);
+      });
+
+      el.innerHTML = "";
+      el.appendChild(ul);
+    }
+
+    function applyLang(lang){
+      setI18nText(lang);
+
+      // Domenii -> bullets
+      renderSemicolonList(lang, "cvAreasVal");
+
+      // Educație -> timeline
+      renderSemicolonList(lang, "cvEduVal", "edu-timeline");
+    }
+
+    // Highlight automat în meniu la scroll (secțiunea vizibilă)
+    function setupActiveNav(){
+      const navLinks = [...document.querySelectorAll("nav a[href^='#']")];
+      const sections = navLinks
+        .map(a => document.querySelector(a.getAttribute("href")))
+        .filter(Boolean);
+
+      if(!sections.length) return;
+
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if(!e.isIntersecting) return;
+          navLinks.forEach(a => a.removeAttribute("aria-current"));
+          const active = navLinks.find(a => a.getAttribute("href") === `#${e.target.id}`);
+          if(active) active.setAttribute("aria-current", "page");
+        });
+      }, { rootMargin: "-40% 0px -55% 0px" });
+
+      sections.forEach(s => obs.observe(s));
+    }
+
+    langBtn.addEventListener("click", () => {
+      const current = localStorage.getItem("site_lang") || "ro";
+      applyLang(current === "ro" ? "en" : "ro");
+    });
+
+    // init
+    applyLang(localStorage.getItem("site_lang") || "ro");
+    setupActiveNav();
+  </script>
 </body>
 </html>
